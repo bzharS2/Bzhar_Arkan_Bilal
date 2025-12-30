@@ -13,6 +13,7 @@ public class assignment {
     static int Echoice;
     static String PNameId;
     static int Pcounter;
+    static char sort;
 
     static boolean Cchosen = false;
     static ArrayList<ArrayList<String>> eventNames = new ArrayList<>();
@@ -61,6 +62,13 @@ public class assignment {
                     break;
 
                 case 4:
+                    if (registrations.get(Cchoice).get(Echoice).size() != 0) {
+                        prompt();
+                        SortParticipants();
+                        DisplayParticipants();
+                    } else {
+                        System.out.println("There is no participants to show.");
+                    }
 
                     break;
 
@@ -184,9 +192,8 @@ public class assignment {
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input");
                 input.nextLine();
-                Echoice=-1;
+                Echoice = -1;
             }
-            
 
         } while (Echoice < 1 || Echoice > 4);
         Echoice = Echoice - 1; // to get the index of that Event
@@ -242,6 +249,41 @@ public class assignment {
                 System.out.println("Participant not found!");
             }
         }
+    }
+
+    public static void DisplayParticipants() {
+        for (int i = 0; i < category.length; i++) {
+            for (int j = 0; j < eventNames.get(i).size(); j++) {
+                for (int k = 0; k < registrations.get(i).get(j).size(); k++) {
+                    System.out.print(category[i] + "/" + eventNames.get(i).get(j) + " :");
+                    System.out.println(registrations.get(i).get(j).get(k));
+
+                }
+            }
+
+        }
+    }
+
+    public static void SortParticipants() {
+        for (int i = 0; i < category.length; i++) {
+            for (int j = 0; j < eventNames.get(i).size(); j++) {
+                if (sort == 'a') {
+                    Collections.sort(registrations.get(i).get(j));
+
+                } else {
+                    Collections.sort( registrations.get(i).get(j), Collections.reverseOrder());
+                }
+            }
+        }
+    }
+
+    public static void prompt() {
+        do {
+            System.out.println("enter A/a for ascending or D/d for descending: ");
+            sort = input.next().charAt(0);
+
+        } while (sort != 'A' && sort != 'D');
+
     }
 
 }
