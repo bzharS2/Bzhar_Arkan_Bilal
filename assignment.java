@@ -1,3 +1,4 @@
+// Before starting the program please read the README.md
 package Assignment;
 
 import java.util.*;
@@ -77,6 +78,9 @@ public class assignment {
                 case 8:
 
                     break;
+                case 0:
+                    System.out.println("Exiting....");
+                    break;
 
                 default:
                     System.out.println("Invalid choice");
@@ -90,7 +94,7 @@ public class assignment {
     public static void menu() {
         System.out.println("-------------------------");
         System.out.println("1. Choose an event category");
-        System.out.println("2. Choose an event");
+        System.out.println("2. Choose an event and add a participant");
         System.out.println("3. Remove a participant");
         System.out.println("4. Display al registered participant");
         System.out.println("5. Display total number of registrations");
@@ -125,8 +129,15 @@ public class assignment {
     public static void chooseC() {
         DisplayCategory();
         do {
-            System.out.print("choose a category: ");
-            Cchoice = input.nextInt();
+            try {
+                System.out.print("choose a category: ");
+                Cchoice = input.nextInt();
+
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input ");
+                input.nextLine();
+                Cchoice = -1;
+            }
 
         } while (Cchoice < 1 || Cchoice > 3);
         Cchoice = Cchoice - 1; // to get the index of that category
@@ -167,8 +178,15 @@ public class assignment {
     public static void chooseE() {
         DisplayEvents();
         do {
-            System.out.print("choose a event: ");
-            Echoice = input.nextInt();
+            try {
+                System.out.print("choose a event: ");
+                Echoice = input.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input");
+                input.nextLine();
+                Echoice=-1;
+            }
+            
 
         } while (Echoice < 1 || Echoice > 4);
         Echoice = Echoice - 1; // to get the index of that Event
@@ -191,12 +209,12 @@ public class assignment {
 
     // create a method to get the name + id from the user
     public static void EnterNameID() {
-        input.nextLine();
+        input.nextLine(); // to get rid of the java input bug
 
         do {
 
             System.out.print("enter a name to add/remove like the following example (name-id) NO SPACES: ");
-            PNameId = input.nextLine().trim();
+            PNameId = input.nextLine().trim(); // we user trim to get rid of spaces
         } while (PNameId.isEmpty());
     }
 

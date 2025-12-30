@@ -14,9 +14,9 @@ we will use ArrayList as three nested. ex: ArrayList<ArrayList<ArrayList<String>
 
 Menu Methods:
  Menu: it will have 8 switch cases + default
-1- A: it will store the Event Categories.
-   B: we will go to another method displaying the available categories the choosing one of them after that display event names and choosing one of them then prompt the user to add Name-ID.
-3- we would prompt the user to enter the Event Name/Category + Participant Name/ID
+1- promot the user to choose and Event Category .
+2- we will go to another method displaying the available Event Names then choosing one of then after that prompt the user to enter the participant Name/ID
+3- we would prompt the user to enter the Event Name/Category + Participant Name/ID to remove
 4- we will display participants and event names per category (nested loops).
 5- display total number of participants in each category and events.
 6- get the participants ID/Name and search for the events they are registered in.
