@@ -14,14 +14,18 @@ public class assignment {
     static String PNameId;
     static int Pcounter;
     static char sort;
+    static boolean hasparticipants = true;
 
     static boolean Cchosen = false;
     static ArrayList<ArrayList<String>> eventNames = new ArrayList<>();
     static ArrayList<ArrayList<ArrayList<String>>> registrations = new ArrayList<>();
+    // we created an array to keep track of everything's counter
+    // we used get(0) for the events name because every category have 4 events
 
     public static void main(String[] args) {
         Eventdecleration();
         RegistrationDecleration();
+        int counter[][] = new int[category.length][eventNames.get(0).size()];
         do {
             menu();
             switch (choice) {
@@ -35,7 +39,7 @@ public class assignment {
                     // make sure a category is chosen
                     if (Cchosen) {
                         chooseE();
-                        Register();
+                        Register(counter);
 
                     } else {
                         System.out.println("A category must be chosen in order to move on");
@@ -49,7 +53,7 @@ public class assignment {
                         // make sure a category is chosen
                         if (Cchosen) {
                             chooseE();
-                            Remove();
+                            Remove(counter);
 
                         } else {
                             System.out.println("A category must be chosen in order to move on");
@@ -62,17 +66,17 @@ public class assignment {
                     break;
 
                 case 4:
-                    if (registrations.get(Cchoice).get(Echoice).size() != 0) {
-                        prompt();
-                        SortParticipants();
-                        DisplayParticipants();
-                    } else {
-                        System.out.println("There is no participants to show.");
+                    prompt();
+                    SortParticipants();
+                    DisplayParticipants();
+                    if (!hasparticipants) {
+                        System.out.println("there are no participants");
                     }
 
                     break;
 
                 case 5:
+                    CounterMethod(counter);
 
                     break;
 
@@ -226,15 +230,16 @@ public class assignment {
     }
 
     // create a method to add the name+id
-    public static void Register() {
+    public static void Register(int [][]counter) {
 
         EnterNameID();
         registrations.get(Cchoice).get(Echoice).add(PNameId);
         Pcounter++;
+        counter[Cchoice][Echoice] = counter[Cchoice][Echoice] + 1;
     }
 
     // create a method to remove a name+id
-    public static void Remove() {
+    public static void Remove(int[][]counter) {
 
         if (registrations.get(Cchoice).get(Echoice).isEmpty()) {
             System.out.println("No participants in this event to remove.");
@@ -244,6 +249,7 @@ public class assignment {
             if (removed) {
                 System.out.println("Participant removed successfully!");
                 Pcounter--;
+                counter[Cchoice][Echoice] = counter[Cchoice][Echoice] - 1;
 
             } else {
                 System.out.println("Participant not found!");
@@ -254,6 +260,10 @@ public class assignment {
     public static void DisplayParticipants() {
         for (int i = 0; i < category.length; i++) {
             for (int j = 0; j < eventNames.get(i).size(); j++) {
+                ArrayList<String> participants = registrations.get(i).get(j);
+                if (participants.isEmpty()) {
+                    hasparticipants = false;
+                }
                 for (int k = 0; k < registrations.get(i).get(j).size(); k++) {
                     System.out.print(category[i] + "/" + eventNames.get(i).get(j) + " :");
                     System.out.println(registrations.get(i).get(j).get(k));
@@ -267,11 +277,11 @@ public class assignment {
     public static void SortParticipants() {
         for (int i = 0; i < category.length; i++) {
             for (int j = 0; j < eventNames.get(i).size(); j++) {
-                if (sort == 'a') {
+                if (sort == 'A') {
                     Collections.sort(registrations.get(i).get(j));
 
                 } else {
-                    Collections.sort( registrations.get(i).get(j), Collections.reverseOrder());
+                    Collections.sort(registrations.get(i).get(j), Collections.reverseOrder());
                 }
             }
         }
@@ -280,10 +290,21 @@ public class assignment {
     public static void prompt() {
         do {
             System.out.println("enter A/a for ascending or D/d for descending: ");
-            sort = input.next().charAt(0);
-
+            sort = Character.toUpperCase(input.next().charAt(0));
         } while (sort != 'A' && sort != 'D');
 
+    }
+
+    public static void CounterMethod(int [][]counter) {
+
+        for (int i = 0; i < category.length; i++) {
+            System.out.println("--------------------");
+            for (int j = 0; j < eventNames.get(i).size(); j++) {
+                System.out.println(
+                        category[i] + "/" + eventNames.get(i).get(j) + " has " + counter[i][j] + " participants");
+            }
+
+        }
     }
 
 }
