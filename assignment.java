@@ -1,18 +1,19 @@
 // Before starting the program please read the README.md
-package Assignment;
+//package Assignment;
 
 import java.util.*;
 
 public class assignment {
     static Scanner input = new Scanner(System.in);
     static int choice;
-    static int choice2;
+    // static int choice2;
 
     static String[] category = { "Music", "Art Exhibitions", "literature & Poetry" };
     static int Cchoice;
     static int Echoice;
     static String PNameId;
     static int Pcounter;
+    static int Psearch;
     static char sort;
     static boolean hasparticipants = true;
 
@@ -81,6 +82,8 @@ public class assignment {
                     break;
 
                 case 6:
+                    SearchValidation();
+                    SearchByValue();
 
                     break;
                 case 7:
@@ -230,7 +233,7 @@ public class assignment {
     }
 
     // create a method to add the name+id
-    public static void Register(int [][]counter) {
+    public static void Register(int[][] counter) {
 
         EnterNameID();
         registrations.get(Cchoice).get(Echoice).add(PNameId);
@@ -239,7 +242,7 @@ public class assignment {
     }
 
     // create a method to remove a name+id
-    public static void Remove(int[][]counter) {
+    public static void Remove(int[][] counter) {
 
         if (registrations.get(Cchoice).get(Echoice).isEmpty()) {
             System.out.println("No participants in this event to remove.");
@@ -258,19 +261,22 @@ public class assignment {
     }
 
     public static void DisplayParticipants() {
-        for (int i = 0; i < category.length; i++) {
-            for (int j = 0; j < eventNames.get(i).size(); j++) {
-                ArrayList<String> participants = registrations.get(i).get(j);
-                if (participants.isEmpty()) {
-                    hasparticipants = false;
-                }
-                for (int k = 0; k < registrations.get(i).get(j).size(); k++) {
-                    System.out.print(category[i] + "/" + eventNames.get(i).get(j) + " :");
-                    System.out.println(registrations.get(i).get(j).get(k));
+        if (Pcounter == 0) {
+            hasparticipants = false;
+        } else {
+            hasparticipants = true;
+            for (int i = 0; i < category.length; i++) {
+                for (int j = 0; j < eventNames.get(i).size(); j++) {
+                    ArrayList<String> participants = registrations.get(i).get(j);
 
+                    for (int k = 0; k < registrations.get(i).get(j).size(); k++) {
+                        System.out.print(category[i] + "/" + eventNames.get(i).get(j) + " :");
+                        System.out.println(registrations.get(i).get(j).get(k));
+
+                    }
                 }
+
             }
-
         }
     }
 
@@ -295,7 +301,7 @@ public class assignment {
 
     }
 
-    public static void CounterMethod(int [][]counter) {
+    public static void CounterMethod(int[][] counter) {
 
         for (int i = 0; i < category.length; i++) {
             System.out.println("--------------------");
@@ -307,4 +313,35 @@ public class assignment {
         }
     }
 
+    public static void SearchByValue() {
+        for (int i = 0; i < category.length; i++) {
+            for (int j = 0; j < eventNames.get(i).size(); j++) {
+                for (int k = 0; k < registrations.get(i).get(j).size(); k++) {
+                    String str = Integer.toString(Psearch);
+                    if (registrations.get(i).get(j).get(k).contains(str)) {
+                        System.out.println(eventNames.get(i).get(j));
+                    } else {
+                        System.out.println("There is no participant with this id");
+                    }
+                }
+            }
+
+        }
+    }
+
+    public static void SearchValidation() {
+        do {
+            try {
+                System.out.print("Please enter an id to search for ");
+                Psearch = input.nextInt();
+                System.out.println("-------------------------");
+
+            } catch (InputMismatchException e) {
+                System.out.println("Error: That's not a valid input. Try again.");
+                input.next();
+                Psearch = -1;
+            }
+        } while (Psearch == -1);
+
+    }
 }
