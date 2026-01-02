@@ -1,5 +1,6 @@
 // Before starting the program please read the README.md
 //package Assignment;
+// make sure the name input isn't all numbers or all integers and make sure the id is entered after the name.
 
 import java.util.*;
 
@@ -12,10 +13,13 @@ public class assignment {
     static int Cchoice;
     static int Echoice;
     static String PNameId;
-    static int Pcounter;
+    static int Pcounter = 0;
     static int Psearch;
     static char sort;
     static boolean hasparticipants = true;
+
+    // this Pfind is used to get the recent registration
+    static String Pfind;
 
     static boolean Cchosen = false;
     static ArrayList<ArrayList<String>> eventNames = new ArrayList<>();
@@ -82,11 +86,25 @@ public class assignment {
                     break;
 
                 case 6:
-                    SearchValidation();
-                    SearchByValue();
+                    if (Pcounter == 0) {
+                        System.out.println("there are no registrations to search for");
+                    } else {
+                        SearchValidation();
+                        String result = SearchByValue();
+                        if (result == null) {
+                            System.out.println("there is no paritcipants with that id");
+                        } else {
+                            System.out.println(result);
+                        }
+                    }
 
                     break;
                 case 7:
+                    if (Pcounter == 0) {
+                        System.out.println("there are no registrations");
+                    } else {
+                        ShowRecent();
+                    }
 
                     break;
 
@@ -236,24 +254,41 @@ public class assignment {
     public static void Register(int[][] counter) {
 
         EnterNameID();
-        registrations.get(Cchoice).get(Echoice).add(PNameId);
         Pcounter++;
+        Pfind = Integer.toString(Pcounter);
+        // we used the Pfind in order to tie the counter with the names and then find
+        // the highest counter which equals the recent registration
+        PNameId = Pfind + "-" + PNameId;
+        registrations.get(Cchoice).get(Echoice).add(PNameId);
+
         counter[Cchoice][Echoice] = counter[Cchoice][Echoice] + 1;
     }
 
     // create a method to remove a name+id
     public static void Remove(int[][] counter) {
-
+        boolean removed = false;
         if (registrations.get(Cchoice).get(Echoice).isEmpty()) {
             System.out.println("No participants in this event to remove.");
         } else {
             EnterNameID();
-            boolean removed = registrations.get(Cchoice).get(Echoice).remove(PNameId);
+            for (int i = 0; i < registrations.get(Cchoice).get(Echoice).size(); i++) {
+                String Participant = registrations.get(Cchoice).get(Echoice).get(i);
+                int index = Participant.indexOf("-");
+                String cleaned = Participant.substring(index + 1);
+                if (cleaned.equals(PNameId)) {
+                    registrations.get(Cchoice).get(Echoice).remove(i);
+
+                    removed = true;
+                    break;
+                }
+
+            }
             if (removed) {
                 System.out.println("Participant removed successfully!");
                 Pcounter--;
+                Pfind = Integer.toString(Pcounter);
                 counter[Cchoice][Echoice] = counter[Cchoice][Echoice] - 1;
-
+                removed = false;
             } else {
                 System.out.println("Participant not found!");
             }
@@ -261,17 +296,22 @@ public class assignment {
     }
 
     public static void DisplayParticipants() {
+        // this if condition ensures there are participants and the one in the ELSE
+        // statement just resets it back to true if there are any
         if (Pcounter == 0) {
             hasparticipants = false;
         } else {
             hasparticipants = true;
             for (int i = 0; i < category.length; i++) {
                 for (int j = 0; j < eventNames.get(i).size(); j++) {
-                    ArrayList<String> participants = registrations.get(i).get(j);
 
                     for (int k = 0; k < registrations.get(i).get(j).size(); k++) {
                         System.out.print(category[i] + "/" + eventNames.get(i).get(j) + " :");
-                        System.out.println(registrations.get(i).get(j).get(k));
+                        System.out.println(
+                                registrations.get(i).get(j).get(k).replaceAll("^[0-9]+", "").replaceFirst("-", ""));
+                        // we user .replaceall to not show the Pcounter at the begining sice its only
+                        // use is for case 7. and the replacefirst is to make sure that the counter
+                        // doesn't get mixed with the name.
 
                     }
                 }
@@ -283,12 +323,23 @@ public class assignment {
     public static void SortParticipants() {
         for (int i = 0; i < category.length; i++) {
             for (int j = 0; j < eventNames.get(i).size(); j++) {
-                if (sort == 'A') {
-                    Collections.sort(registrations.get(i).get(j));
+                // we use this built in object to handle the sorting regardless of the counter
+                // at the start of the name
+                Collections.sort(registrations.get(i).get(j), new Comparator<String>() {
 
-                } else {
-                    Collections.sort(registrations.get(i).get(j), Collections.reverseOrder());
-                }
+                    // and this is a built in method for the comparator
+                    public int compare(String s1, String s2) {
+                        // Remove everything before the first "-"
+                        String name1 = s1.replaceFirst("^[0-9]+-", "");
+                        String name2 = s2.replaceFirst("^[0-9]+-", "");
+
+                        if (sort == 'A') {
+                            return name1.compareToIgnoreCase(name2); // ascending regardless of capitalization
+                        } else {
+                            return name2.compareToIgnoreCase(name1); // descending regardless of capitalization
+                        }
+                    }
+                });
             }
         }
     }
@@ -313,20 +364,21 @@ public class assignment {
         }
     }
 
-    public static void SearchByValue() {
+    public static String SearchByValue() {
         for (int i = 0; i < category.length; i++) {
             for (int j = 0; j < eventNames.get(i).size(); j++) {
                 for (int k = 0; k < registrations.get(i).get(j).size(); k++) {
+                    // we created a variable str to search for the string version of the id
                     String str = Integer.toString(Psearch);
-                    if (registrations.get(i).get(j).get(k).contains(str)) {
-                        System.out.println(eventNames.get(i).get(j));
-                    } else {
-                        System.out.println("There is no participant with this id");
+                    if (registrations.get(i).get(j).get(k).endsWith(str)) {
+                        return category[i]+"/"+eventNames.get(i).get(j)+":"+registrations.get(i).get(j).get(k).replaceAll("^[0-9]+", "").replaceFirst("-", "");
+
                     }
                 }
             }
 
         }
+        return null;
     }
 
     public static void SearchValidation() {
@@ -342,6 +394,25 @@ public class assignment {
                 Psearch = -1;
             }
         } while (Psearch == -1);
+
+    }
+
+    public static void ShowRecent() {
+
+        for (int i = 0; i < category.length; i++) {
+            for (int j = 0; j < eventNames.get(i).size(); j++) {
+                for (int k = 0; k < registrations.get(i).get(j).size(); k++) {
+                    if (registrations.get(i).get(j).get(k).startsWith(Pfind)) {
+                        System.out.print(category[i] + "/" + eventNames.get(i).get(j) + " :");
+                        System.out.println(
+                                registrations.get(i).get(j).get(k).replaceAll("^[0-9]+", "").replaceFirst("-", ""));
+                    }
+
+                }
+
+            }
+
+        }
 
     }
 }
