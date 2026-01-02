@@ -1,6 +1,5 @@
 // Before starting the program please read the README.md
 //package Assignment;
-// make sure the name input isn't all numbers or all integers and make sure the id is entered after the name.
 
 import java.util.*;
 
@@ -262,6 +261,12 @@ public class assignment {
 
             System.out.print("enter a name to add/remove like the following example (name-id) NO SPACES: ");
             PNameId = input.nextLine().trim(); // we user trim to get rid of spaces
+
+            // if the name doesn't start with letter and end with number force retry
+             if (!PNameId.matches("[A-Za-z]+-\\d+")) {
+            System.out.println(" Invalid format. Use letters-id (e.g. name-123).");
+            PNameId = ""; // force retry
+        }
         } while (PNameId.isEmpty());
     }
 
