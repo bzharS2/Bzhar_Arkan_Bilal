@@ -10,6 +10,7 @@ public class assignment {
     // static int choice2;
 
     static String[] category = { "Music", "Art Exhibitions", "literature & Poetry" };
+    static int[] categorySize = new int[3];// instead of 3 category.length could've been used as well
     static int Cchoice;
     static int Echoice;
     static String PNameId;
@@ -17,6 +18,11 @@ public class assignment {
     static int Psearch;
     static char sort;
     static boolean hasparticipants = true;
+    static int max = 0;
+    static int maxIndex = -1;
+    static int maxE;
+    static int maxER = 0;
+    static int maxEC = 0;
 
     // this Pfind is used to get the recent registration
     static String Pfind;
@@ -30,6 +36,10 @@ public class assignment {
     public static void main(String[] args) {
         Eventdecleration();
         RegistrationDecleration();
+        // this 2D array is used to keep track of number of participants in each
+        // category and events .
+        // even though it is isn't perfectly dynamic, it does the job very well since
+        // every category has 4 events.
         int counter[][] = new int[category.length][eventNames.get(0).size()];
         do {
             menu();
@@ -110,6 +120,11 @@ public class assignment {
 
                 case 8:
 
+                    if (Pcounter == 0) {
+                        System.out.println("there no participants registered");
+                    } else {
+                        Summary(counter);
+                    }
                     break;
                 case 0:
                     System.out.println("Exiting....");
@@ -262,6 +277,7 @@ public class assignment {
         registrations.get(Cchoice).get(Echoice).add(PNameId);
 
         counter[Cchoice][Echoice] = counter[Cchoice][Echoice] + 1;
+        categorySize[Cchoice] = categorySize[Cchoice] + 1;
     }
 
     // create a method to remove a name+id
@@ -288,6 +304,8 @@ public class assignment {
                 Pcounter--;
                 Pfind = Integer.toString(Pcounter);
                 counter[Cchoice][Echoice] = counter[Cchoice][Echoice] - 1;
+                categorySize[Cchoice] = categorySize[Cchoice] - 1;
+
                 removed = false;
             } else {
                 System.out.println("Participant not found!");
@@ -371,7 +389,8 @@ public class assignment {
                     // we created a variable str to search for the string version of the id
                     String str = Integer.toString(Psearch);
                     if (registrations.get(i).get(j).get(k).endsWith(str)) {
-                        return category[i]+"/"+eventNames.get(i).get(j)+":"+registrations.get(i).get(j).get(k).replaceAll("^[0-9]+", "").replaceFirst("-", "");
+                        return category[i] + "/" + eventNames.get(i).get(j) + ":"
+                                + registrations.get(i).get(j).get(k).replaceAll("^[0-9]+", "").replaceFirst("-", "");
 
                     }
                 }
@@ -414,5 +433,46 @@ public class assignment {
 
         }
 
+    }
+
+    public static void Summary(int[][] counter) {
+        max = categorySize[0];
+        maxIndex = 0;
+
+        for (int i = 1; i < categorySize.length; i++) {
+            if (categorySize[i] > maxE) {
+                max = categorySize[i]; // the number of paritcipants in the highest category
+                maxIndex = i; // the index to get the category
+            }
+        }
+        maxE = counter[0][0];
+        maxER = 0;
+        maxEC = 0;
+        for (int i = 0; i < category.length; i++) {
+            for (int j = 0; j < counter[i].length; j++) {
+                if (counter[i][j] > maxE) {
+                    maxE = counter[i][j];
+                    maxER = i;
+                    maxEC = j;
+                }
+
+            }
+        }
+
+        System.out.println("Category(s) with the highest number of participants (" + max + "):");
+        for (int i = 0; i < categorySize.length; i++) {
+            if (categorySize[i] == max) {
+                System.out.println("-" + category[i]);
+            }
+        }
+        System.out.println(
+                "Event(s) with the highest number of participants (" + maxE + "):");
+        for (int i = 0; i < counter.length; i++) {
+            for (int j = 0; j < counter[i].length; j++) {
+                if (counter[i][j] == maxE) {
+                    System.out.println("-" + eventNames.get(i).get(j) );
+                }
+            }
+        }
     }
 }
