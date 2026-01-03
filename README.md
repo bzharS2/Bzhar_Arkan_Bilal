@@ -5,28 +5,27 @@ Collaborators:
 2- Bilal Omar
 3- Arkan Faizulla
 
-Notes:
+Important Notes:
 1- we didn't use Arrays as they have fixed sizes.
 2- we didn't use Queues and Stacks as they can't be accessed at random indexes.
+3- we will use ArrayList as three nested. ex: ArrayList<ArrayList<ArrayList<String>>> categories = new ArrayList<>();
 
-we will use ArrayList as three nested. ex: ArrayList<ArrayList<ArrayList<String>>> categories = new ArrayList<>();
-
-1- Event Category "predetemined" user will choose
-2- Event Name     "predetemined" user will choose
-3- Participant Name "user will enter"
-4- Participant ID   "user will enter"
+4- Event Category "predetemined" user will choose
+5- Event Name     "predetemined" user will choose
+6- Participant Name "user will enter"
+7- Participant ID   "user will enter"
 
 Menu Methods:
- Menu: it will have 8 switch cases + default
-1- promot the user to choose and Event Category .
-2- we will go to another method displaying the available Event Names then choosing one of them after that prompt the user to enter the participant Name/ID
-3- we would prompt the user to enter the Event Name/Category + Participant Name/ID to remove
-4- we will display participants and event names per category 
-5- display total number of participants in each category and events.
-6- get the participants ID and search for the events they are registered in.
-7- display the most recent registration
-8- display the category and with the highest number of participants
-9- exit the program
+ Menu: it will have 9 switch cases + default
+1- First case will prompt the user to choose a category.
+2- Second case will prompt the user to choose an event and add a participant
+3- Third case will prompt the user to remove a participant from an event.
+4- Forth case will display all participants in either ascending or decending format according to the user.
+5- Fifth case will display total number of registrations per category and event.
+6- Sixth case will prompt the user to enter an id to display all registered events.
+7- Seventh case will display the most recent registration.
+8- Eighth xase will display a summary of the most popular events.
+9- Ninth case will exit the program.
 default- invalid choice
 
 
