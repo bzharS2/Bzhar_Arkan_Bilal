@@ -4,6 +4,7 @@
 import java.util.*;
 
 public class assignment {
+
     static Scanner Input = new Scanner(System.in);
     static int SwitchCaseChoice;
     static String[] Category = { "Music", "Art Exhibitions", "literature & Poetry" };
@@ -94,12 +95,8 @@ public class assignment {
                         System.out.println("there are no Registrations to search for");
                     } else {
                         SearchValidation();
-                        String Result = SearchByValue();
-                        if (Result == null) {
-                            System.out.println("there is no paritcipants with that id");
-                        } else {
-                            System.out.println(Result);
-                        }
+                        SearchByValue();
+
                     }
 
                     break;
@@ -185,7 +182,6 @@ public class assignment {
         CategoryChoice = CategoryChoice - 1; // to get the index of that Category
     }
 
-
     public static void Eventdecleration() {
         for (int c = 0; c < Category.length; c++) {
             EventNames.add(new ArrayList<>()); // create each empty list for each Category
@@ -207,7 +203,6 @@ public class assignment {
         EventNames.get(2).add("Book Discussion Forum");
         EventNames.get(2).add("Classical Literature Talk");
     }
-
 
     public static void DisplayEvents() {
 
@@ -235,7 +230,6 @@ public class assignment {
         EventChoice = EventChoice - 1; // to get the index of that Event
         System.out.println("chosen event " + (EventChoice + 1));
     }
-
 
     public static void RegistrationDecleration() {
 
@@ -317,7 +311,6 @@ public class assignment {
         }
     }
 
-
     public static void DisplayParticipants() {
         // this if condition ensures there are participants and the one in the ELSE
         // statement just resets it back to true if there are any
@@ -344,7 +337,6 @@ public class assignment {
         }
     }
 
-
     public static void SortParticipants() {
         for (int i = 0; i < Category.length; i++) {
             for (int j = 0; j < EventNames.get(i).size(); j++) {
@@ -369,7 +361,6 @@ public class assignment {
         }
     }
 
-
     public static void Prompt() {
         do {
             System.out.println("enter A/a for ascending or D/d for descending: ");
@@ -377,7 +368,6 @@ public class assignment {
         } while (SortingChoice != 'A' && SortingChoice != 'D');
 
     }
-
 
     public static void CounterMethod(int[][] Counter) {
 
@@ -391,25 +381,23 @@ public class assignment {
         }
     }
 
-
-    public static String SearchByValue() {
+    public static void SearchByValue() {
         for (int i = 0; i < Category.length; i++) {
             for (int j = 0; j < EventNames.get(i).size(); j++) {
                 for (int k = 0; k < Registrations.get(i).get(j).size(); k++) {
                     // we created a variable str to search for the string version of the id
                     String str = Integer.toString(PersonSearch);
                     if (Registrations.get(i).get(j).get(k).endsWith(str)) {
-                        return Category[i] + "/" + EventNames.get(i).get(j) + ":"
-                                + Registrations.get(i).get(j).get(k).replaceAll("^[0-9]+", "").replaceFirst("-", "");
+                        System.out.println(Category[i] + "/" + EventNames.get(i).get(j) + ":"
+                                + Registrations.get(i).get(j).get(k).replaceAll("^[0-9]+", "").replaceFirst("-", ""));
 
                     }
+
                 }
             }
 
         }
-        return null;
     }
-
 
     public static void SearchValidation() {
         do {
@@ -426,7 +414,6 @@ public class assignment {
         } while (PersonSearch == -1);
 
     }
-
 
     public static void ShowRecent() {
 
@@ -446,7 +433,6 @@ public class assignment {
         }
 
     }
-
 
     public static void Summary(int[][] Counter) {
         MaxCategory = CategorySize[0];

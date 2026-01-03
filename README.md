@@ -9,8 +9,6 @@ Notes:
 1- we didn't use Arrays as they have fixed sizes.
 2- we didn't use Queues and Stacks as they can't be accessed at random indexes.
 
-we will use ArrayList as three nested. ex: ArrayList<ArrayList<ArrayList<String>>> categories = new ArrayList<>();
-
 1- Event Category "predetemined" user will choose
 2- Event Name     "predetemined" user will choose
 3- Participant Name "user will enter"
