@@ -5,10 +5,11 @@ import java.util.*;
 
 public class assignment {
 
+    //Global variables
     static Scanner Input = new Scanner(System.in);
     static int SwitchCaseChoice;
     static String[] Category = { "Music", "Art Exhibitions", "literature & Poetry" };
-    static int[] CategorySize = new int[3]; // instead of 3 Category.length could've been used as well
+    static int[] CategorySize = new int[3];
     static int CategoryChoice;
     static int CounterElegbility = 0;
     static int EventChoice;
@@ -19,22 +20,20 @@ public class assignment {
     static boolean HasParticipants = true;
     static int MaxCategory = 0;
     static int MaxEvent;
-
-    static String PersonFind; // this PersonFind is used to get the recent registration
+    static String PersonFind;
     static boolean CategoryChosen = false;
     static ArrayList<ArrayList<String>> EventNames = new ArrayList<>();
     static ArrayList<ArrayList<ArrayList<String>>> Registrations = new ArrayList<>();
-    // we created an array to keep track of everything's Counter
-    // we used get(0) for the events name because every Category have 4 events
 
     public static void main(String[] args) {
         Eventdecleration();
         RegistrationDecleration();
-        // this 2D array is used to keep track of number of participants in each
-        // Category and events .
-        // even though it is isn't perfectly dynamic, it does the job very well since
-        // every Category has 4 events.
-        int Counter[][] = new int[Category.length][EventNames.get(0).size()];
+
+        /* this 2D array is used to keep track of number of participants in each Category and events.
+         even though it isn't perfectly dynamic, it does the job very well since
+         every Category has 4 events.*/
+
+        int Counter[][] = new int[Category.length][EventNames.get(0).size()];  // we created an array to keep track of everything's Counter
         do {
             Menu();
             switch (SwitchCaseChoice) {
@@ -128,7 +127,7 @@ public class assignment {
         } while (SwitchCaseChoice != 0);
     }
 
-    // create a method to display the Menu
+    // Create a method to display the Menu
     public static void Menu() {
         System.out.println("-------------------------");
         System.out.println("1. Choose an event Category");
@@ -155,7 +154,7 @@ public class assignment {
 
     }
 
-    // create a method to display the Category
+    // Create a method to display the Category
     public static void DisplayCategory() {
         for (int i = 0; i < Category.length; i++) {
             System.out.println((i + 1) + "- " + Category[i]);
@@ -163,7 +162,7 @@ public class assignment {
 
     }
 
-    // create a method to get the chosec Category
+    // Create a method to get the chosec Category
     public static void ChooseCategory() {
         DisplayCategory();
         do {
@@ -181,11 +180,13 @@ public class assignment {
         CategoryChoice = CategoryChoice - 1; // to get the index of that Category
     }
 
+    // Declaring the event
     public static void Eventdecleration() {
         for (int c = 0; c < Category.length; c++) {
             EventNames.add(new ArrayList<>()); // create each empty list for each Category
         }
 
+        // we will use get(0) for the events name because every Category have 4 events
         // Add 4 events per Category
         EventNames.get(0).add("Traditional Music Night"); // Music
         EventNames.get(0).add("Youth Band Festival");
@@ -203,6 +204,7 @@ public class assignment {
         EventNames.get(2).add("Classical Literature Talk");
     }
 
+    // This method is for displaying the events
     public static void DisplayEvents() {
 
         for (int j = 0; j < EventNames.get(CategoryChoice).size(); j++) {
@@ -212,7 +214,7 @@ public class assignment {
 
     }
 
-    // create a method to get the chosec Category
+    // Create a method to get the chosec Category
     public static void ChooseEvent() {
         DisplayEvents();
         do {
@@ -245,7 +247,7 @@ public class assignment {
 
     }
 
-    // create a method to get the name + id from the user
+    // Create a method to get the name + id from the user
     public static void EnterNameID() {
         Input.nextLine(); // to get rid of the java Input bug
 
@@ -262,7 +264,7 @@ public class assignment {
         } while (PersonNameId.isEmpty());
     }
 
-    // create a method to add the name+id
+    // Create a method to add the name+id
     public static void Register(int[][] Counter) {
 
         EnterNameID();
@@ -273,7 +275,7 @@ public class assignment {
         // find
         // the highest Counter which equals the recent registration
         PersonNameId = PersonFind + "-" + PersonNameId;
-        
+
         Registrations.get(CategoryChoice).get(EventChoice).add(PersonNameId);
         CheckElegbility();
 
@@ -281,7 +283,7 @@ public class assignment {
         CategorySize[CategoryChoice] = CategorySize[CategoryChoice] + 1;
     }
 
-    // create a method to remove a name+id
+    // Create a method to remove a name+id
     public static void Remove(int[][] Counter) {
         boolean removed = false;
         if (Registrations.get(CategoryChoice).get(EventChoice).isEmpty()) {
@@ -313,6 +315,7 @@ public class assignment {
         }
     }
 
+    //Create a methid to diplay the participants
     public static void DisplayParticipants() {
         // this if condition ensures there are participants and the one in the ELSE
         // statement just resets it back to true if there are any
@@ -339,6 +342,7 @@ public class assignment {
         }
     }
 
+    //This method if for sorting the participants
     public static void SortParticipants() {
         for (int i = 0; i < Category.length; i++) {
             for (int j = 0; j < EventNames.get(i).size(); j++) {
@@ -363,6 +367,7 @@ public class assignment {
         }
     }
 
+    //This method is used to prompt the user for the sorting method 
     public static void Prompt() {
         do {
             System.out.println("enter A/a for ascending or D/d for descending: ");
@@ -371,6 +376,7 @@ public class assignment {
 
     }
 
+    //This method is used to show how many particioant there is in a category and event
     public static void CounterMethod(int[][] Counter) {
 
         for (int i = 0; i < Category.length; i++) {
@@ -383,13 +389,14 @@ public class assignment {
         }
     }
 
+    //Create a method for the seacrching algorithm
     public static void SearchByValue() {
         for (int i = 0; i < Category.length; i++) {
             for (int j = 0; j < EventNames.get(i).size(); j++) {
                 for (int k = 0; k < Registrations.get(i).get(j).size(); k++) {
                     // we created a variable str to search for the string version of the id
                     String str = Integer.toString(PersonSearch);
-                   
+
                     if (Registrations.get(i).get(j).get(k).endsWith(str)) {
                         System.out.println(Category[i] + "/" + EventNames.get(i).get(j) + ":"
                                 + Registrations.get(i).get(j).get(k).replaceAll("^[0-9]+", "").replaceFirst("-", ""));
@@ -402,6 +409,7 @@ public class assignment {
         }
     }
 
+    //Create a method to validate the id for the seaching algorithm
     public static void SearchValidation() {
         do {
             try {
@@ -418,6 +426,7 @@ public class assignment {
 
     }
 
+    //Create a methid to show the recent registrations
     public static void ShowRecent() {
 
         for (int i = 0; i < Category.length; i++) {
@@ -437,6 +446,7 @@ public class assignment {
 
     }
 
+    //Create a method to display the summary
     public static void Summary(int[][] Counter) {
         MaxCategory = CategorySize[0];
 
@@ -451,7 +461,7 @@ public class assignment {
             for (int j = 0; j < Counter[i].length; j++) {
                 if (Counter[i][j] > MaxEvent) {
                     MaxEvent = Counter[i][j];
-                   
+
                 }
 
             }
@@ -474,6 +484,7 @@ public class assignment {
         }
     }
 
+    //Create a method to check if the user is eligible for a cultural gift
     public static void CheckElegbility() {
         for (int i = 0; i < Category.length; i++) {
             for (int j = 0; j < EventNames.get(i).size(); j++) {
@@ -481,11 +492,10 @@ public class assignment {
                     if (PersonNameId.equals(Registrations.get(i).get(j).get(j2))) {
                         CounterElegbility++;
                         if (CounterElegbility == 3) {
-                            // int code = 100000 + new Random().nextInt(999999);
                             int code = (int) (Math.random() * (999999 - 100000 + 1)) + 100000;
-                            System.out.println("Congrats!");  
+                            System.out.println("Congrats!");
                             System.out.println("You are eligable for a cultural gift");
-                            System.out.println("here is your gift: "+code);
+                            System.out.println("here is your gift: " + code);
                         }
                     }
                 }

@@ -5,7 +5,7 @@ Collaborators:
 2- Bilal Omar SE 
 3- Arkan Faizulla SE
 
-Contributions
+Contributions:
 1- Bzhar: cases 4,5,6
 2- Bilal: cases 7,8,9,Menu
 3- Arkan: cases 1,2,3
@@ -35,4 +35,6 @@ default- invalid choice
 
 
 NOTES/
-AI was used to get info about Arraylist and how it works 
+AI was used to get info about the following
+1-Arraylist and how it works 
+2-And in the method <SortParticipants>
