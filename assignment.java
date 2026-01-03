@@ -10,6 +10,7 @@ public class assignment {
     static String[] Category = { "Music", "Art Exhibitions", "literature & Poetry" };
     static int[] CategorySize = new int[3]; // instead of 3 Category.length could've been used as well
     static int CategoryChoice;
+    static int CounterElegbility = 0;
     static int EventChoice;
     static String PersonNameId;
     static int PersonCounter = 0;
@@ -17,10 +18,8 @@ public class assignment {
     static char SortingChoice;
     static boolean HasParticipants = true;
     static int MaxCategory = 0;
-    static int MaxIndex = -1;
     static int MaxEvent;
-    static int MaxEventRow = 0;
-    static int MaxEventColumn = 0;
+
     static String PersonFind; // this PersonFind is used to get the recent registration
     static boolean CategoryChosen = false;
     static ArrayList<ArrayList<String>> EventNames = new ArrayList<>();
@@ -231,6 +230,7 @@ public class assignment {
         System.out.println("chosen event " + (EventChoice + 1));
     }
 
+    // Declaring the registrations
     public static void RegistrationDecleration() {
 
         // Create the empty registration lists
@@ -266,13 +266,16 @@ public class assignment {
     public static void Register(int[][] Counter) {
 
         EnterNameID();
+
         PersonCounter++;
         PersonFind = Integer.toString(PersonCounter);
         // we used the PersonFind in order to tie the Counter with the names and then
         // find
         // the highest Counter which equals the recent registration
         PersonNameId = PersonFind + "-" + PersonNameId;
+        
         Registrations.get(CategoryChoice).get(EventChoice).add(PersonNameId);
+        CheckElegbility();
 
         Counter[CategoryChoice][EventChoice] = Counter[CategoryChoice][EventChoice] + 1;
         CategorySize[CategoryChoice] = CategorySize[CategoryChoice] + 1;
@@ -304,7 +307,6 @@ public class assignment {
                 Counter[CategoryChoice][EventChoice] = Counter[CategoryChoice][EventChoice] - 1;
                 CategorySize[CategoryChoice] = CategorySize[CategoryChoice] - 1;
 
-                removed = false;
             } else {
                 System.out.println("Participant not found!");
             }
@@ -387,6 +389,7 @@ public class assignment {
                 for (int k = 0; k < Registrations.get(i).get(j).size(); k++) {
                     // we created a variable str to search for the string version of the id
                     String str = Integer.toString(PersonSearch);
+                   
                     if (Registrations.get(i).get(j).get(k).endsWith(str)) {
                         System.out.println(Category[i] + "/" + EventNames.get(i).get(j) + ":"
                                 + Registrations.get(i).get(j).get(k).replaceAll("^[0-9]+", "").replaceFirst("-", ""));
@@ -436,23 +439,19 @@ public class assignment {
 
     public static void Summary(int[][] Counter) {
         MaxCategory = CategorySize[0];
-        MaxIndex = 0;
 
         for (int i = 1; i < CategorySize.length; i++) {
             if (CategorySize[i] > MaxEvent) {
                 MaxCategory = CategorySize[i]; // the number of paritcipants in the highest Category
-                MaxIndex = i; // the index to get the Category
             }
         }
         MaxEvent = Counter[0][0];
-        MaxEventRow = 0;
-        MaxEventColumn = 0;
+
         for (int i = 0; i < Category.length; i++) {
             for (int j = 0; j < Counter[i].length; j++) {
                 if (Counter[i][j] > MaxEvent) {
                     MaxEvent = Counter[i][j];
-                    MaxEventRow = i;
-                    MaxEventColumn = j;
+                   
                 }
 
             }
@@ -470,6 +469,25 @@ public class assignment {
             for (int j = 0; j < Counter[i].length; j++) {
                 if (Counter[i][j] == MaxEvent) {
                     System.out.println("-" + EventNames.get(i).get(j));
+                }
+            }
+        }
+    }
+
+    public static void CheckElegbility() {
+        for (int i = 0; i < Category.length; i++) {
+            for (int j = 0; j < EventNames.get(i).size(); j++) {
+                for (int j2 = 0; j2 < Registrations.get(i).get(j).size(); j2++) {
+                    if (PersonNameId.equals(Registrations.get(i).get(j).get(j2))) {
+                        CounterElegbility++;
+                        if (CounterElegbility == 3) {
+                            // int code = 100000 + new Random().nextInt(999999);
+                            int code = (int) (Math.random() * (999999 - 100000 + 1)) + 100000;
+                            System.out.println("Congrats!");  
+                            System.out.println("You are eligable for a cultural gift");
+                            System.out.println("here is your gift: "+code);
+                        }
+                    }
                 }
             }
         }
