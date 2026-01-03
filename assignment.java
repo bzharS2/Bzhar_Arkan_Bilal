@@ -391,22 +391,30 @@ public class assignment {
 
     //Create a method for the seacrching algorithm
     public static void SearchByValue() {
+        boolean SearchFound = false;
+        String str = Integer.toString(PersonSearch);
+
         for (int i = 0; i < Category.length; i++) {
             for (int j = 0; j < EventNames.get(i).size(); j++) {
                 for (int k = 0; k < Registrations.get(i).get(j).size(); k++) {
                     // we created a variable str to search for the string version of the id
-                    String str = Integer.toString(PersonSearch);
 
                     if (Registrations.get(i).get(j).get(k).endsWith(str)) {
                         System.out.println(Category[i] + "/" + EventNames.get(i).get(j) + ":"
                                 + Registrations.get(i).get(j).get(k).replaceAll("^[0-9]+", "").replaceFirst("-", ""));
 
+                        SearchFound = true;
                     }
 
                 }
             }
 
         }
+        if (!SearchFound) {
+            System.out.println("No participants were found with ID of "+str);
+        }
+
+        
     }
 
     //Create a method to validate the id for the seaching algorithm
