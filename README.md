@@ -1,9 +1,14 @@
 # Assignment
 this is a private repository for 3 people to edit it
 Collaborators:
-1- Bzhar Kamal
-2- Bilal Omar
-3- Arkan Faizulla
+1- Bzhar Kamal SE 
+2- Bilal Omar SE 
+3- Arkan Faizulla SE
+
+Contributions
+1- BZhar: cases 4,5,6
+2- Bilal: cases 7,8,9,Menu
+3- Arkan: cases 1,3,3
 
 Important Notes:
 1- we didn't use Arrays as they have fixed sizes.
