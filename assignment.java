@@ -224,11 +224,11 @@ public class assignment {
         do {
             try {
                 System.out.print("choose a event: ");
-                Echoice = Input.nextInt();
+                EventChoice = Input.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("Invalid Input");
                 Input.nextLine();
-                Echoice = -1;
+                EventChoice = -1;
             }
 
         } while (EventChoice < 1 || EventChoice > 4);
