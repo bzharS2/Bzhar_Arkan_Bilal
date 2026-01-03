@@ -273,7 +273,7 @@ public class assignment {
         // find
         // the highest Counter which equals the recent registration
         PersonNameId = PersonFind + "-" + PersonNameId;
-        
+
         Registrations.get(CategoryChoice).get(EventChoice).add(PersonNameId);
         CheckElegbility();
 
@@ -384,22 +384,29 @@ public class assignment {
     }
 
     public static void SearchByValue() {
+        boolean SearchFound = false;
+        String str = Integer.toString(PersonSearch);
+
         for (int i = 0; i < Category.length; i++) {
             for (int j = 0; j < EventNames.get(i).size(); j++) {
                 for (int k = 0; k < Registrations.get(i).get(j).size(); k++) {
                     // we created a variable str to search for the string version of the id
-                    String str = Integer.toString(PersonSearch);
-                   
+
                     if (Registrations.get(i).get(j).get(k).endsWith(str)) {
                         System.out.println(Category[i] + "/" + EventNames.get(i).get(j) + ":"
                                 + Registrations.get(i).get(j).get(k).replaceAll("^[0-9]+", "").replaceFirst("-", ""));
 
+                        SearchFound = true;
                     }
 
                 }
             }
 
         }
+        if (!SearchFound) {
+            System.out.println("No participants were found with ID of "+str);
+        }
+
     }
 
     public static void SearchValidation() {
@@ -451,7 +458,7 @@ public class assignment {
             for (int j = 0; j < Counter[i].length; j++) {
                 if (Counter[i][j] > MaxEvent) {
                     MaxEvent = Counter[i][j];
-                   
+
                 }
 
             }
@@ -483,9 +490,9 @@ public class assignment {
                         if (CounterElegbility == 3) {
                             // int code = 100000 + new Random().nextInt(999999);
                             int code = (int) (Math.random() * (999999 - 100000 + 1)) + 100000;
-                            System.out.println("Congrats!");  
+                            System.out.println("Congrats!");
                             System.out.println("You are eligable for a cultural gift");
-                            System.out.println("here is your gift: "+code);
+                            System.out.println("here is your gift: " + code);
                         }
                     }
                 }
