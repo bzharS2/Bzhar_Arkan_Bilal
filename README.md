@@ -28,7 +28,7 @@ Menu Methods:
 5- Fifth case will display total number of registrations per category and event.
 6- Sixth case will prompt the user to enter an id to display all registered events.
 7- Seventh case will display the most recent registration.
-8- Eighth xase will display a summary of the most popular events.
+8- Eighth case will display a summary of the most popular events.
 9- Ninth case will exit the program.
 default- invalid choice
 
